@@ -1,6 +1,6 @@
 # Simple Calculator
 
-To perform simple calculations
+A single file webpage to perform simple calculations
 
 ## Future plans
 * Add more functionality
