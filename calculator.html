@@ -148,28 +148,59 @@
 
                 compute() {
                     let computation
-                    const prev = parseFloat(this.previousOperand)
-                    const current = parseFloat(this.currentOperand)
-                    if (isNaN(prev) || isNaN(current)) { return }
-                    switch (this.operation) {
-                        case '+':
-                            computation = prev + current
-                            break
-                        case '*':
-                            computation = prev * current
-                            break
-                        case '-':
-                            computation = prev - current
-                            break
-                        case '÷':
-                            computation = prev / current
-                            break
-                        default:
-                            return
+                    if (this.operation != undefined) {
+                        const prev = parseFloat(this.previousOperand)
+                        const current = parseFloat(this.currentOperand)
+                        if (isNaN(prev) || isNaN(current)) { return }
+                        switch (this.operation) {
+                            case '+':
+                                computation = prev + current
+                                break
+                            case '*':
+                                computation = prev * current
+                                break
+                            case '-':
+                                computation = prev - current
+                                break
+                            case '÷':
+                                computation = prev / current
+                                break
+                            default:
+                                return
+                        }
+                        if (isNaN(prev) || isNaN(current) || computation != undefined || computation != null) {
+                            this.addToFeed(prev, current, computation, this.operation)
+                        }
+                    } else {
+                        this.operation = this.previousOperation
+                        this.previousOperand = this.currentOperand
+                        this.currentOperand = this.previousCurrentOperand
+                        const prev = parseFloat(this.previousOperand)
+                        const current = parseFloat(this.currentOperand)
+                        if (isNaN(prev) || isNaN(current)) { return }
+                        switch (this.operation) {
+                            case '+':
+                                computation = prev + current
+                                break
+                            case '*':
+                                computation = prev * current
+                                break
+                            case '-':
+                                computation = prev - current
+                                break
+                            case '÷':
+                                computation = prev / current
+                                break
+                            default:
+                                return
+                        }
+                        if (isNaN(prev) || isNaN(current) || computation != undefined || computation != null) {
+                            this.addToFeed(prev, current, computation, this.operation)
+                        }
                     }
-                    if (isNaN(prev) || isNaN(current) || computation != undefined || computation != null) {
-                        this.addToFeed(prev, current, computation, this.operation)
-                    }
+            
+                    this.previousOperation = this.operation
+                    this.previousCurrentOperand = this.currentOperand
                     this.currentOperand = computation
                     this.operation = undefined
                     this.previousOperand = ''
